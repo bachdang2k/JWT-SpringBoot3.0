@@ -6,6 +6,8 @@ import com.spring.JWTSecurity.model.responseDTO.AuthenticationResponse;
 import com.spring.JWTSecurity.service.AuthService;
 import com.spring.JWTSecurity.service.UserService;
 import com.spring.JWTSecurity.util.ValidateObject;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
 import java.util.Map;
 
 @RestController
@@ -46,5 +49,13 @@ public class AuthController {
     @PostMapping("/sign-in")
     public ResponseEntity<AuthenticationResponse> login(@RequestBody LoginDTO loginDTO){
         return new ResponseEntity<>(authService.authenticate(loginDTO), HttpStatus.OK);
+    }
+
+    @PostMapping("/refresh-token")
+    public void refreshToken(
+            HttpServletRequest request,
+            HttpServletResponse response
+    ) throws IOException {
+        authService.refreshToken(request, response);
     }
 }

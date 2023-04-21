@@ -8,6 +8,7 @@ import io.jsonwebtoken.security.SignatureException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -22,9 +23,10 @@ public class JWTService {
 
     @Value("${nasaki.app.jwtSecret}")
     private String jwtSecret;
-
     @Value("${nasaki.app.jwtExpirationMs}")
     private int jwtExpirationMs;
+    @Value("${nasaki.app.jwtRefreshExpirationMs}")
+    private int refreshTokenDurationMs;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -54,15 +56,29 @@ public class JWTService {
     }
 
     public String generateToken(
-            Map<String, Object> extractClaims,
-            UserDetailsImpl userDetails
+            Map<String, Object> extraClaims,
+            UserDetails userDetails
+    ) {
+        return buildToken(extraClaims, userDetails, jwtExpirationMs);
+    }
+
+    public String generateRefreshToken(
+            UserDetails userDetails
+    ) {
+        return buildToken(new HashMap<>(), userDetails, refreshTokenDurationMs);
+    }
+
+    private String buildToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails,
+            long expiration
     ) {
         return Jwts
                 .builder()
-                .setClaims(extractClaims)
+                .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationMs))
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
                 .signWith(getSignInKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

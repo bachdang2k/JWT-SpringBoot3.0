@@ -2,7 +2,7 @@ package com.spring.JWTSecurity.service.Impl;
 
 import com.spring.JWTSecurity.entity.Role;
 import com.spring.JWTSecurity.entity.RoleName;
-import com.spring.JWTSecurity.repository.RoleRepository;
+import com.spring.JWTSecurity.repository.database.RoleRepository;
 import com.spring.JWTSecurity.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

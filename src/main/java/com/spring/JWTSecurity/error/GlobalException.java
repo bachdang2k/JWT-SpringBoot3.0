@@ -48,4 +48,16 @@ public class GlobalException extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    //Handle Token Refresh Exception
+    @ExceptionHandler(value = TokenRefreshException.class)
+    public ResponseEntity<BaseResponse<Object>> handleTokenRefreshException(TokenRefreshException exception) {
+
+        BaseResponse<Object> baseResponse =
+                BaseResponse.builder()
+                        .code(String.format(HttpStatus.FORBIDDEN.toString()))
+                        .data(exception.getLocalizedMessage())
+                        .success(false)
+                        .build();
+        return new ResponseEntity<>(baseResponse, HttpStatus.FORBIDDEN);
+    }
 }

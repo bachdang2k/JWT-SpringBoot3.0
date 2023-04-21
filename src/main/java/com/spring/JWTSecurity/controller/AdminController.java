@@ -21,4 +21,9 @@ public class AdminController {
     public ResponseEntity<Object> getUserList() {
         return new ResponseEntity<>(userService.getAllUser(), HttpStatus.OK);
     }
+
+    @GetMapping("/profile")
+    public ResponseEntity<Object> getProfile() {
+        return new ResponseEntity<>("success", HttpStatus.OK);
+    }
 }

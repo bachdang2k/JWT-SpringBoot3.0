@@ -3,12 +3,11 @@ package com.spring.JWTSecurity.service.Impl;
 import com.spring.JWTSecurity.entity.User;
 import com.spring.JWTSecurity.model.mapper.Mapper;
 import com.spring.JWTSecurity.model.requestDTO.UserDTO;
-import com.spring.JWTSecurity.repository.UserRepository;
+import com.spring.JWTSecurity.repository.database.UserRepository;
 import com.spring.JWTSecurity.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;

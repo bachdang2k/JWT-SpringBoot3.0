@@ -1,7 +1,7 @@
 package com.spring.JWTSecurity.security.userDetail;
 
 import com.spring.JWTSecurity.entity.User;
-import com.spring.JWTSecurity.repository.UserRepository;
+import com.spring.JWTSecurity.repository.database.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

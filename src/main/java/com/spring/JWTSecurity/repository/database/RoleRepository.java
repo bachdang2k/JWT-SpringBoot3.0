@@ -1,4 +1,4 @@
-package com.spring.JWTSecurity.repository;
+package com.spring.JWTSecurity.repository.database;
 
 import com.spring.JWTSecurity.entity.Role;
 import com.spring.JWTSecurity.entity.RoleName;

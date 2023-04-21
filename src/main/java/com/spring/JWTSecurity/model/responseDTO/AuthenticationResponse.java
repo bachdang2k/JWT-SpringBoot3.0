@@ -1,5 +1,6 @@
 package com.spring.JWTSecurity.model.responseDTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
+import java.util.Set;
 
 @Data
 @Builder
@@ -14,9 +16,13 @@ import java.util.Collection;
 @NoArgsConstructor
 public class AuthenticationResponse {
 
-    private String token;
+    @JsonProperty("access_token")
+    private String accessToken;
+    @JsonProperty("refresh_token")
+    private String refreshToken;
     private final String type = "Bearer";
-    private String name;
-    private Collection<? extends GrantedAuthority> roles;
+    //private String refreshToken;
+    private String username;
+    private Set<String> roles;
     private String message;
 }
