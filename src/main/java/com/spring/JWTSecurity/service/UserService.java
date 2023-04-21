@@ -2,6 +2,7 @@ package com.spring.JWTSecurity.service;
 
 import com.spring.JWTSecurity.entity.User;
 import com.spring.JWTSecurity.model.requestDTO.UserDTO;
+import com.spring.JWTSecurity.model.responseDTO.ProfileDTO;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,5 +19,6 @@ public interface UserService {
 
     List<UserDTO> getAllUser();
     UserDTO updateUserById(Long id);
+    ProfileDTO getProfile(long id);
 
 }

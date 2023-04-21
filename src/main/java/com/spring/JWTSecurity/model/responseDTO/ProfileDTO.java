@@ -6,14 +6,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.spring.JWTSecurity.entity.Role;
 import com.spring.JWTSecurity.entity.Token;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 public class ProfileDTO {
 
@@ -25,8 +29,6 @@ public class ProfileDTO {
     private String username;
     @JsonProperty("email")
     private String email;
-    @JsonProperty("password")
-    private String password;
     private String phoneNumber;
     private String avatar;
 

@@ -3,6 +3,7 @@ package com.spring.JWTSecurity.model.mapper;
 import com.spring.JWTSecurity.entity.User;
 import com.spring.JWTSecurity.model.requestDTO.RegisterDTO;
 import com.spring.JWTSecurity.model.requestDTO.UserDTO;
+import com.spring.JWTSecurity.model.responseDTO.ProfileDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -41,7 +42,7 @@ public class Mapper {
         return user;
     }
 
-    public User toUse(RegisterDTO dto) {
+    public static User toUse(RegisterDTO dto) {
         User user = new User();
         user.setFirstName(dto.getFirstName());
         user.setLastName(dto.getLastName());
@@ -53,5 +54,17 @@ public class Mapper {
         user.setLastModifiedDate(new Date());
 
         return user;
+    }
+
+    public static ProfileDTO toProfileDTO(User user) {
+        ProfileDTO profileDTO = new ProfileDTO();
+        profileDTO.setFirstName(user.getFirstName());
+        profileDTO.setLastName(user.getLastName());
+        profileDTO.setUsername(user.getUsername());
+        profileDTO.setEmail(user.getEmail());
+        profileDTO.setPhoneNumber(user.getPhoneNumber());
+        profileDTO.setAvatar(user.getAvatar());
+
+        return profileDTO;
     }
 }

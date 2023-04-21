@@ -2,6 +2,7 @@ package com.spring.JWTSecurity.controller;
 
 import com.spring.JWTSecurity.model.requestDTO.LoginDTO;
 import com.spring.JWTSecurity.model.requestDTO.RegisterDTO;
+import com.spring.JWTSecurity.model.requestDTO.TokenRefreshRequest;
 import com.spring.JWTSecurity.model.responseDTO.AuthenticationResponse;
 import com.spring.JWTSecurity.service.AuthService;
 import com.spring.JWTSecurity.service.UserService;

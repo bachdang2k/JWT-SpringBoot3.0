@@ -39,7 +39,6 @@ public class User {
 
     private String phoneNumber;
 
-    @JsonIgnore
     @Column(name = "hash_password")
     private String password;
 
@@ -54,10 +53,11 @@ public class User {
 
     private Date lastModifiedDate;
 
+    @JsonIgnore
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     Set<Role> roles = new HashSet<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "user")
     Set<Token> tokenSet;
 

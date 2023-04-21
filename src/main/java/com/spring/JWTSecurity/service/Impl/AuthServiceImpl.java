@@ -83,13 +83,17 @@ public class AuthServiceImpl implements AuthService {
             );
         }
         user.setRoles(roles);
-        userService.save(user);
         UserDetailsImpl userDetails = UserDetailsImpl.build(user);
+        var savedUser = userService.save(user);
+        var jwtToken = jwtService.generateToken(userDetails);
+        var refreshToken = jwtService.generateRefreshToken(userDetails);
+        saveUserToken(savedUser, jwtToken);
 
         return AuthenticationResponse
                 .builder()
                 .message("Register Successful")
-                .accessToken(jwtService.generateToken(userDetails))
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
                 .username(userDetails.getUsername())
                 .roles(new HashSet<>(roles.stream().map(role -> role.getRoleName().toString()).collect(Collectors.toList())))
                 .build();
@@ -107,16 +111,21 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         Set<String> roles = userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toSet());
+        var jwtToken = jwtService.generateToken(userDetails);
+        var refreshToken = jwtService.generateRefreshToken(userDetails);
+        var user = userService.getUserByUsername(loginDTO.getUsername()).get();
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
 
         return AuthenticationResponse
                 .builder()
                 .message("Login successfully")
-                .accessToken(jwtService.generateToken(userDetails))
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
                 .username(userDetails.getUsername())
                 .roles(roles)
                 .build();
     }
-
 
     @Override
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -140,11 +149,12 @@ public class AuthServiceImpl implements AuthService {
 
             revokeAllUserTokens(user);
             saveUserToken(user, accessToken);
-                var authResponse = AuthenticationResponse.builder()
-                        .accessToken(accessToken)
-                        .refreshToken(refreshToken)
-                        .build();
-                new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
+            var authResponse = AuthenticationResponse.builder()
+                    .accessToken(accessToken)
+                    .refreshToken(refreshToken)
+                    .username(username)
+                    .build();
+            new ObjectMapper().writeValue(response.getOutputStream(), authResponse);
             }
         }
 
